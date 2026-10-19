@@ -1,0 +1,519 @@
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #F5F5FA;
+        color: #172554;
+    }
+
+    .layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        width: 230px;
+        background: white;
+        padding: 28px 18px;
+        border-right: 1px solid #E8E7F0;
+        flex-shrink: 0;
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 800;
+        color: #172554;
+        margin-bottom: 38px;
+    }
+
+    .logo span {
+        color: #A78BFA;
+    }
+
+    .nav-item {
+        display: block;
+        padding: 13px 14px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        color: #64708B;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .nav-item.active {
+        background: #EEE8FF;
+        color: #5941A9;
+        font-weight: 700;
+    }
+
+    .main {
+        flex: 1;
+        min-width: 0;
+        padding: 32px;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .topbar h1 {
+        font-size: 27px;
+        margin-bottom: 8px;
+    }
+
+    .muted {
+        color: #8991A5;
+        font-size: 13px;
+    }
+    .button {
+
+        display: inline-block;
+
+        background: #8b5cf6;
+
+        color: #ffffff !important;
+
+        padding: 12px 20px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        line-height: 1.5;
+
+        min-width: 140px;
+
+        cursor: pointer;
+
+    }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 18px;
+        margin-bottom: 10px;
+        align-items: start;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #ECEAF4;
+        border-radius: 15px;
+        padding: 14px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: #7C8499;
+        margin-bottom: 16px;
+    }
+
+    .stat-number {
+        font-size: 30px;
+        font-weight: 800;
+        color: #172554;
+    }
+
+    .stat-note {
+        font-size: 12px;
+        color: #8B79CB;
+        margin-top: 8px;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-bottom: 5px;
+        align-items: start;
+    }
+
+    .card h2 {
+        font-size: 17px;
+        margin-bottom: 20px;
+    }
+
+    .status-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        font-size: 13px;
+    }
+
+    .status-row span:first-child {
+        flex: 1;
+    }
+
+    .track {
+        width: 90px;
+        height: 7px;
+        background: #F0EFF7;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .fill {
+        height: 100%;
+        background: #A78BFA;
+        border-radius: 10px;
+    }
+
+    .fill.navy {
+        background: #243B70;
+    }
+
+    .fill.green {
+        background: #55B99A;
+    }
+
+    .fill.orange {
+        background: #E9B66B;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    th {
+        color: #858DA0;
+        background: #FAFAFD;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    th, td {
+        padding: 15px 12px;
+        border-bottom: 1px solid #F0EFF5;
+        font-size: 12px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 9px;
+        border-radius: 7px;
+        background: #EEE8FF;
+        color: #7053BC;
+        font-size: 11px;
+    }
+
+    .badge.open {
+        background: #E7F0FF;
+        color: #315BA8;
+    }
+    .badge.in-progress {
+
+        background: #FFF0D9;
+
+        color: #B86E16;
+
+    }
+
+    .badge.closed {
+        background: #E5F6EF;
+        color: #248464;
+    }
+
+    .badge.urgent {
+        background: #FFF0E8;
+        color: #C56D36;
+    }
+
+    .empty {
+        color: #9299AA;
+        text-align: center;
+        padding: 24px;
+    }
+
+    @media (max-width: 1000px) {
+        .stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .main {
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .sidebar {
+            width: 145px;
+            padding: 20px 10px;
+        }
+
+        .main {
+            padding: 14px;
+        }
+
+        .topbar h1 {
+            font-size: 21px;
+        }
+
+        .topbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .stats {
+            gap: 10px;
+        }
+
+        .card {
+            padding: 15px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+        }
+    }
+    .button {
+
+        display: inline-block;
+
+        background-color: #8b5cf6;
+
+        color: white !important;
+
+        padding: 12px 20px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        font-size: 15px !important;
+
+        font-weight: bold;
+
+        min-width: 150px;
+
+        cursor: pointer;
+
+    }
+</style>
+<aside class="sidebar">
+    <div class="logo">Nexa<span>Desk.</span></div>
+
+    <a href="/" class="nav-item active">▦ Dashboard</a>
+    <a href="#tickets" class="nav-item">▤ All Tickets</a>
+    <a href="#team" class="nav-item">♙ Team Members</a>
+    <a href="#reports" class="nav-item">▥ Reports</a>
+    <a href="#settings" class="nav-item">⚙ Settings</a>
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1>Dashboard Overview</h1>
+            <p class="muted">Welcome back! Here is your support summary.</p>
+        </div>
+
+        <button type="button"
+
+                onclick="window.location.href='/tickets/new'"
+
+                style="background:#A78BFA; color:#172554; padding:14px 22px; border:0; border-radius:9px; font-size:16px; font-weight:bold; cursor:pointer;">
+
+            Create Ticket
+
+        </button>
+    </header>
+
+    <section class="stats">
+        <div class="card">
+            <p class="stat-label">Total Tickets</p>
+            <div class="stat-number" th:text="${ticketCount}">0</div>
+            <p class="stat-note">All recorded requests</p>
+        </div>
+
+        <div class="card">
+            <p class="stat-label">Open Tickets</p>
+            <div class="stat-number" th:text="${openCount}">0</div>
+            <p class="stat-note">Awaiting resolution</p>
+        </div>
+
+        <div class="card">
+            <p class="stat-label">In Progress</p>
+            <div class="stat-number" th:text="${inProgressCount}">24</div>
+
+            <p class="stat-note">Currently being handled</p>
+        </div>
+
+        <div class="card">
+            <p class="stat-label">Resolved Tickets</p>
+            <div class="stat-number">68</div>
+            <p class="stat-note">Successfully completed</p>
+        </div>
+    </section>
+
+    <section class="content-grid">
+        <div class="card" id="reports">
+            <h2>Ticket Status Overview</h2>
+
+            <div class="status-row">
+                <span>Resolved</span>
+                <div class="track"><div class="fill green" style="width:53%"></div></div>
+                <strong>53%</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Open</span>
+                <div class="track"><div class="fill navy" style="width:28%"></div></div>
+                <strong>28%</strong>
+            </div>
+
+            <div class="status-row">
+                <span>In Progress</span>
+                <div class="track"><div class="fill" style="width:19%"></div></div>
+                <strong>19%</strong>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Support Summary</h2>
+            <p class="muted">Ticket resolution rate</p>
+            <div class="stat-number" style="margin-top:15px">53%</div>
+            <div style="height:9px;background:#EEE8FF;border-radius:10px;margin-top:18px">
+                <div style="height:9px;width:53%;background:#A78BFA;border-radius:10px"></div>
+            </div>
+            <p class="muted" style="margin-top:15px">
+                Track requests and improve response efficiency.
+            </p>
+        </div>
+    </section>
+
+    <section class="card" id="tickets">
+        <input type="text" id="ticketSearch"
+
+               placeholder="Search tickets..."
+
+               onkeyup="searchTickets()">
+        <h2>Recent Tickets</h2>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Subject</th>
+                    <th>created At</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Assigned To</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="ticket : ${tickets}">
+
+                    <td th:text="${'#' + ticket.id}"></td>
+
+                    <td th:text="${ticket.title}"></td>
+                    <td th:text="${#temporals.format(ticket.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+
+                    <td>
+
+            <span class="badge"
+
+                  th:text="${ticket.priority}"
+
+                  th:classappend="${#strings.toLowerCase(#strings.replace(ticket.status, ' ', '-'))}">
+
+            </span>
+
+                    </td>
+
+                    <td>
+                        <form th:action="@{/tickets/{id}/status(id=${ticket.id})}" method="post">
+
+                            <select name="status" onchange="this.form.submit()">
+
+                                <option value="Open" th:selected="${ticket.status == 'Open'}">Open</option>
+
+                                <option value="In Progress" th:selected="${ticket.status == 'In Progress'}">In Progress</option>
+
+                                <option value="Closed" th:selected="${ticket.status == 'Closed'}">Closed</option>
+
+                            </select>
+                            <button type="submit"
+
+                                    th:formaction="@{/tickets/{id}/delete(id=${ticket.id})}"
+
+                                    formmethod="post"
+
+                                    onclick="return confirm('Delete this ticket?')">
+
+                                Delete
+
+                            </button>
+                        </form>
+
+                    </td>
+
+                    <td>Unassigned</td>
+
+                </tr>
+
+                <tr th:if="${tickets.isEmpty()}">
+
+                    <td colspan="5" class="empty">No tickets yet</td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+<script>
+
+    function searchTickets() {
+
+        const input = document.getElementById("ticketSearch").value.toLowerCase();
+
+        const rows = document.querySelectorAll("#tickets tbody tr");
+
+        rows.forEach(row => {
+
+            row.style.display = row.textContent.toLowerCase().includes(input)
+
+                ? ""
+
+                : "none";
+
+        });
+
+    }
+
+</script>
+</body>
+
+</html>
